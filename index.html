@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>سهام‌بین PRO — آنلاین (دارک مود)</title>
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Icons (optional) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <h1>سهام‌بین <span>PRO</span></h1>
+        <small>نسخه آنلاین — دارک مود</small>
+      </div>
+
+      <section class="controls">
+        <label>نمادها (با ویرگول جدا کن)</label>
+        <input id="symbolsInput" placeholder="مثال: فولاد،فملی،خودرو" />
+
+        <label>تاریخ شروع</label>
+        <input id="fromDate" type="date"/>
+
+        <label>تاریخ پایان</label>
+        <input id="toDate" type="date"/>
+
+        <label>API URL (اختیاری)</label>
+        <input id="apiUrl" placeholder="https://api.example.com/stock/{symbol}/history" />
+
+        <label>API Key (اختیاری)</label>
+        <input id="apiKey" placeholder="کلید API اگر داری" />
+
+        <div class="btn-row">
+          <button id="loadBtn" class="btn primary">بارگذاری داده‌ها</button>
+          <button id="simulateBtn" class="btn">اجرای شبیه‌سازی</button>
+        </div>
+      </section>
+
+      <section class="strategy">
+        <h3>استراتژی سریع (Try & Error)</h3>
+
+        <label>نوع سیگنال</label>
+        <select id="signalType">
+          <option value="price-level">سطح قیمت (خرید/فروش دستی)</option>
+          <option value="ma-cross">میانگین متحرک - تقاطع</option>
+        </select>
+
+        <div id="priceLevelControls" class="strategy-controls">
+          <label>قیمت خرید پیشنهادی</label>
+          <input id="buyLevel" type="number" step="0.01" placeholder="مثال: 12000" />
+
+          <label>قیمت فروش پیشنهادی</label>
+          <input id="sellLevel" type="number" step="0.01" placeholder="مثال: 16000" />
+        </div>
+
+        <div id="maControls" class="strategy-controls hidden">
+          <label>MA کوتاه (دوره)</label>
+          <input id="maShort" type="number" value="9" />
+          <label>MA بلند (دوره)</label>
+          <input id="maLong" type="number" value="26" />
+        </div>
+
+        <label>حداکثر سرمایه برای هر نماد (تومان)</label>
+        <input id="capitalPerSymbol" type="number" value="10000000" />
+
+      </section>
+
+      <footer class="sidebar-footer">
+        <small>نسخهٔ آزمایشی: برای اتصال به API واقعی، آدرس و کلید را وارد کن.</small>
+      </footer>
+    </aside>
+
+    <main class="main">
+      <div class="topbar">
+        <div>
+          <h2 id="statusTitle">آماده</h2>
+          <p id="statusMsg">برای بارگذاری داده‌ها روی «بارگذاری داده‌ها» کلیک کن.</p>
+        </div>
+        <div class="actions">
+          <button id="downloadReport" class="btn">دانلود گزارش CSV</button>
+        </div>
+      </div>
+
+      <section class="content">
+        <div class="left-panel">
+          <canvas id="priceChart" height="280"></canvas>
+
+          <div class="table-wrap">
+            <table id="resultsTable">
+              <thead>
+                <tr>
+                  <th>نماد</th>
+                  <th>سیگنال فعلی</th>
+                  <th>قیمت آخر</th>
+                  <th>پیشنهاد</th>
+                  <th>تست بازگشتی</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="right-panel">
+          <h3>جزئیات نماد</h3>
+          <div id="symbolDetails" class="details">
+            <p>نمادی انتخاب نشده</p>
+          </div>
+
+          <h3>نتایج شبیه‌سازی</h3>
+          <div id="backtestResults">
+            <p>هیچ شبیه‌سازی اجرا نشده است.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
